@@ -2868,7 +2868,7 @@ pub fn loadFromBytes(comptime T: type, allocator: Allocator, data: []const u8, l
 
 pub fn load(comptime T: type, allocator: Allocator, file_path: []const u8, limits: DecodeLimits) !Image(T) {
     const read_limit = if (limits.max_jpeg_bytes == 0) std.math.maxInt(usize) else limits.max_jpeg_bytes;
-    const jpeg_data = try std.fs.cwd().readFileAlloc(file_path, allocator, .limited(read_limit));
+    const jpeg_data = try std.fs.cwd().readFileAlloc(allocator, file_path, .limited(read_limit));
     defer allocator.free(jpeg_data);
     return loadFromBytes(T, allocator, jpeg_data, limits);
 }
